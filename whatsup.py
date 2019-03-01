@@ -7,16 +7,28 @@ from selenium.webdriver.common.by import By
 import time
 import sys
 import telepot
+import unittest
 
 bot = telepot.Bot('730873853:AAGfK5jud5AL3yxsI3FikNWh7ump3LeMv24')
-driver = webdriver.Firefox()
 
 print('carregando o firefox')
 
-driver.get("https://web.whatsapp.com/")
-wait = WebDriverWait(driver, 600)
 
-class Whatsup:
+class Whatsup(unittest.TestCase):
+    @classmethod
+    def setUp(cls):
+        """ Seta o webdriver para firefox """
+        cls.driver = webdriver.Firefox()
+        #wait = WebDriverWait(driver, 600)
+        cls.driver.implicitly_wait(600)
+        cls.driver.maximize_window
+        cls.driver.get("https://web.whatsapp.com/")
+    
+    @classmethod
+    def tearDown(cls):
+        """ Fecha o browser """
+        cls.driver.quit()
+
     def enviandoMsgWhatsUp(self, target, mensagem):
 
         # Replace 'Friend's Name' with the name of your friend 
@@ -68,6 +80,6 @@ class Whatsup:
             driver.close()
             exit()
         elif (mensagem == '/lw'):
-            listaUsersWA()
+            self.listaUsersWA()
         else:
-            enviandoMsgWhatsUp('"Kaka"', msg['text'])
+            self.enviandoMsgWhatsUp('"Kaka"', msg['text'])
